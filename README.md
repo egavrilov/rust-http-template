@@ -8,20 +8,21 @@ This repository contains two Rust templates for OpenFaaS, one of which gives add
 $ faas template pull https://github.com/egavrilov/rust-http-template
 $ faas new --list
 Languages available as templates:
-- rust-http
+- rust-musl
 ```
 
-## rust-http-template/rust-http
+## rust-http-template/rust-musl
 
 This template gives you more control over handling function input and output.
 
 ```Rust
+use std::convert::Infallible;
 use hyper::{Body, Request, Response};
 
 const PHRASE: &str = "Hello, World!";
 
-pub fn handle(_req: Request<Body>) -> Response<Body> {
-    Response::new(Body::from(PHRASE))
+pub async fn handle(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    Ok(Response::new(Body::from(PHRASE)))
 }
 
 // Returns:
@@ -31,13 +32,16 @@ pub fn handle(_req: Request<Body>) -> Response<Body> {
 You can return custom errors using `hyper::Response`.
 
 ```Rust
+use std::convert::Infallible;
 use hyper::{Body, Request, Response, StatusCode};
 
-pub fn handle(_req: Request<Body>) -> Response<Body> {
-    Response::builder()
+const PHRASE: &str = "Hello, World!";
+
+pub async fn handle(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    Ok(Response::builder()
         .status(StatusCode::INTERNAL_SERVER_ERROR)
         .body(Body::from("my error"))
-        .unwrap()
+        .unwrap())
 }
 
 // Returns:
