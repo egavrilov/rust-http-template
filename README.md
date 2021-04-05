@@ -5,7 +5,7 @@ An OpenFaaS of-watchdog template written in Rust.
 This repository contains two Rust templates for OpenFaaS, one of which gives additional control over the HTTP request and response. They will both handle higher throughput than the classic watchdog due to the process being kept warm.
 
 ```sh
-$ faas template pull https://github.com/egavrilov/rust-http-template
+$ faas template pull https://github.com/egavrilov/rust-musl-template
 $ faas new --list
 Languages available as templates:
 - rust-musl
